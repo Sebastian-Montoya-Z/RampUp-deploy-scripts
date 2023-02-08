@@ -30,10 +30,13 @@ cd /home/vagrant/RampUp_login/users-api
 ./mvnw clean install
 
 sudo cp /home/vagrant/RampUp_login/auth-api/scripts/RampUp-auth-api.service /lib/systemd/system/RampUp-auth-api.service
+sudo cp /home/vagrant/RampUp_login/auth-api/scripts/RampUp-goEnv.service /lib/systemd/system/RampUp-goEnv.service
 sudo cp /home/vagrant/RampUp_login/users-api/scripts/RampUp-users-api.service /lib/systemd/system/RampUp-users-api.service
 
 sudo systemctl daemon-reload
 sudo systemctl enable RampUp-users-api
+sudo systemctl enable RampUp-goEnv
 sudo systemctl enable RampUp-auth-api
 sudo systemctl start RampUp-users-api
+sudo systemctl start RampUp-goEnv
 sudo systemctl start RampUp-auth-api
