@@ -9,8 +9,8 @@ echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://pack
 sudo apt-get update -y
 sudo apt-get install redis -y
 sudo systemctl daemon-reload
-sudo systemctl enable redis
-sudo systemctl start redis
+sudo systemctl enable redis-server
+sudo systemctl start redis-server
 
 cd /home/vagrant/RampUp_TODO/log-message-processor
 sudo apt install python3-pip -y
