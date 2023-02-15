@@ -1,0 +1,60 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_frontend/nginx
+      dockerfile: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_frontend/nginx/Dockerfile
+    ports:
+      - "8009:8009"
+    networks:
+      - mynetwork
+  web:
+    build:
+      context: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_frontend/frontend
+      dockerfile: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_frontend/frontend/Dockerfile
+    ports:
+      - 8080:8080
+    networks:
+      - mynetwork
+  auth:
+    build:
+      context: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_login/auth-api
+      dockerfile: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_login/auth-api/Dockerfile
+    ports:
+      - 8000:8000
+    networks:
+      - mynetwork
+  users:
+    build:
+      context: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_login/users-api
+      dockerfile: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_login/users-api/Dockerfile
+    ports:
+      - 8083:8083
+    networks:
+      - mynetwork
+  todos:
+    build:
+      context: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_TODO/todos-api
+      dockerfile: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_TODO/todos-api/Dockerfile
+    ports:
+      - 8082:8082
+    networks:
+      - mynetwork
+  redis:
+    build:
+      context: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_TODO/redis
+      dockerfile: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_TODO/redis/Dockerfile
+    ports:
+      - 6379:6379
+    networks:
+      - mynetwork
+  log:
+    build:
+      context: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_TODO/log-message-processor
+      dockerfile: /mnt/c/Users/sebastian.montoyaz/work/training/RampUp/RampUp_TODO/log-message-processor/Dockerfile
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
