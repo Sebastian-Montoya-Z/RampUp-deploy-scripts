@@ -6,40 +6,64 @@ services:
       - "8009:8009"
     networks:
       - mynetwork
+    depends_on:
+      - web
+
   web:
     image: sebastianmontoyaz/rampup-perfi:frontend
     ports:
       - 8080:8080
     networks:
       - mynetwork
+    depends_on:
+      - zipkin
+      - auth
+      - todos
+      - users
+
   auth:
     image: sebastianmontoyaz/rampup-perfi:auth
     ports:
       - 8000:8000
     networks:
       - mynetwork
+    depends_on:
+      - zipkin
+      - users
+
   users:
     image: sebastianmontoyaz/rampup-perfi:users
     ports:
       - 8083:8083
     networks:
       - mynetwork
+    depends_on:
+      - zipkin
+
   todos:
     image: sebastianmontoyaz/rampup-perfi:todos
     ports:
       - 8082:8082
     networks:
       - mynetwork
+    depends_on:
+      - zipkin
+      - users
+
   redis:
     image: sebastianmontoyaz/rampup-perfi:redis
     ports:
       - 6379:6379
     networks:
       - mynetwork
+
   log:
     image: sebastianmontoyaz/rampup-perfi:log
     networks:
       - mynetwork
+    depends_on:
+      - zipkin
+      - redis
 
 networks:
   mynetwork:
