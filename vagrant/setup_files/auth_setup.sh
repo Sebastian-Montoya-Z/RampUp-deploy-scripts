@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-sudo apt-get update && apt upgrade -y
+sudo chmod 744 upgrade.sh
+sudo ./upgrade.sh
 
 cd /home/vagrant 
 
