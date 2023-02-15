@@ -1,0 +1,46 @@
+version: '3'
+services:
+  nginx:
+    image: sebastianmontoyaz/rampup-perfi:nginx
+    ports:
+      - "8009:8009"
+    networks:
+      - mynetwork
+  web:
+    image: sebastianmontoyaz/rampup-perfi:frontend
+    ports:
+      - 8080:8080
+    networks:
+      - mynetwork
+  auth:
+    image: sebastianmontoyaz/rampup-perfi:auth
+    ports:
+      - 8000:8000
+    networks:
+      - mynetwork
+  users:
+    image: sebastianmontoyaz/rampup-perfi:users
+    ports:
+      - 8083:8083
+    networks:
+      - mynetwork
+  todos:
+    image: sebastianmontoyaz/rampup-perfi:todos
+    ports:
+      - 8082:8082
+    networks:
+      - mynetwork
+  redis:
+    image: sebastianmontoyaz/rampup-perfi:redis
+    ports:
+      - 6379:6379
+    networks:
+      - mynetwork
+  log:
+    image: sebastianmontoyaz/rampup-perfi:log
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
