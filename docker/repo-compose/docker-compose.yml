@@ -11,6 +11,11 @@ services:
 
   web:
     image: sebastianmontoyaz/rampup-perfi:frontend
+    environment:
+      ZIPKIN_URL: http://zipkin:9411/api/v2/spans
+      PORT: 8080
+      AUTH_API_ADDRESS: http://auth:8081
+      TODOS_API_ADDRESS: http://todos:8082
     ports:
       - 8080:8080
     networks:
@@ -23,6 +28,11 @@ services:
 
   auth:
     image: sebastianmontoyaz/rampup-perfi:auth
+    environment:
+      ZIPKIN_URL: http://zipkin:9411/api/v2/spans
+      AUTH_API_PORT: 8081
+      JWT_SECRET: PRFT
+      USERS_API_ADDRESS: http://users:8083
     ports:
       - 8000:8000
     networks:
@@ -33,6 +43,10 @@ services:
 
   users:
     image: sebastianmontoyaz/rampup-perfi:users
+    environment:
+      SPRING_ZIPKIN_BASE_URL: http://zipkin:9411
+      SERVER_PORT: 8083
+      JWT_SECRET: PRFT
     ports:
       - 8083:8083
     networks:
@@ -42,6 +56,13 @@ services:
 
   todos:
     image: sebastianmontoyaz/rampup-perfi:todos
+    environment:
+      ZIPKIN_URL: http://zipkin:9411/api/v2/spans
+      TODO_API_PORT: 8082
+      JWT_SECRET: PRFT
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_CHANNEL: log_channel
     ports:
       - 8082:8082
     networks:
@@ -51,7 +72,7 @@ services:
       - users
 
   redis:
-    image: sebastianmontoyaz/rampup-perfi:redis
+    image: redis:7.0
     ports:
       - 6379:6379
     networks:
@@ -59,11 +80,23 @@ services:
 
   log:
     image: sebastianmontoyaz/rampup-perfi:log
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_CHANNEL: log_channel
+      ZIPKIN_URL: http://zipkin:9411/api/v2/spans
     networks:
       - mynetwork
     depends_on:
       - zipkin
       - redis
+
+  zipkin:
+    image: openzipkin/zipkin:latest
+    ports:
+      - 9411:9411
+    networks:
+      - mynetwork
 
 networks:
   mynetwork:
