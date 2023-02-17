@@ -4,17 +4,17 @@ v = vagrant.Vagrant(quiet_stdout=False)
 
 try:
     v.up("todos")
-except:
-    print("temamaste todos")
+except Exception as e:
+    print(e)
 
 try:
     v.up("auth")
-except:
-    print("temamaste auth")
+except Exception as e:
+    print(e)
 
 try:
     v.up("web")
-except:
-    print("temamaste web")
+except Exception as e:
+    print(e)
 
 print(v.status())
